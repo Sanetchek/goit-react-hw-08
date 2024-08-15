@@ -1,61 +1,40 @@
-import css from './App.module.css'
-import { useDispatch, useSelector } from "react-redux";
-import {
-  selectErrorContacts,
-  selectLoadingContacts
-} from "../../redux/contactsSlice";
+import React, { lazy } from "react";
 import { useEffect } from "react";
-import { fetchContacts } from "../../redux/contactsOps";
+import { useDispatch } from "react-redux";
+import { Routes, Route } from "react-router-dom";
 
-import ContactForm from '../ContactForm/ContactForm'
-import SearchBox from "../SearchBox/SearchBox";
-import ContactList from "../ContactList/ContactList";
-import Loading from "../Loading/Loading";
-import Error from "../Error/Error";
+import { fetchContacts } from "../../redux/contacts/operations";
 
+import Layout from "../Layout/Layout";
 
-function App() {
-  const isLoading = useSelector(selectLoadingContacts);
-  const isError = useSelector(selectErrorContacts);
+const HomePage = lazy(() => import("../../pages/HomePage/HomePage"));
+const RegistrationPage = lazy(() =>
+  import("../../pages/RegistrationPage/RegistrationPage")
+);
+const LoginPage = lazy(() => import("../../pages/LoginPage/LoginPage"));
+const ContactsPage = lazy(() =>
+  import("../../pages/ContactsPage/ContactsPage")
+);
+const NotFoundPage = lazy(() =>
+  import("../../pages/NotFoundPage/NotFoundPage")
+);
+
+export default function App() {
   const dispatch = useDispatch();
 
-  // get contacts from server
   useEffect(() => {
     dispatch(fetchContacts());
   }, [dispatch]);
 
   return (
-    <div className={css.container}>
-      <h1>Phonebook</h1>
-
-      <div className={css.wrap}>
-        <ContactForm />
-        <SearchBox />
-      </div>
-      {isLoading && <Loading />}
-      {isError && (
-        <Error message="Something went wrong. Please try again later." />
-      )}
-      <ContactList />
-    </div>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<HomePage />} />
+        <Route path="register" element={<RegistrationPage />} />
+        <Route path="login" element={<LoginPage />} />
+        <Route path="contacts" element={<ContactsPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Route>
+    </Routes>
   );
 }
-
-export default App
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

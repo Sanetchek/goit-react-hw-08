@@ -1,8 +1,12 @@
-import clsx from 'clsx';
-import css from './Contact.module.css'
+import clsx from "clsx";
+import css from "./Contact.module.css";
 import { BiSolidUser, BiSolidPhone } from "react-icons/bi";
-import { useDispatch } from 'react-redux';
-import { deleteContact } from '../../redux/contactsOps';
+import { useDispatch } from "react-redux";
+import { deleteContact } from "../../redux/contacts/operations";
+
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 
 export default function Contact({ phone: { id, name, number } }) {
   const titleItem = clsx(css.item, css.title);
@@ -15,38 +19,24 @@ export default function Contact({ phone: { id, name, number } }) {
 
   return (
     <>
-      <div className={css.content}>
-        <h2 className={titleItem}>
+      <Box className={css.content}>
+        <Typography variant="h6" component="h2" className={titleItem}>
           <BiSolidUser />
           {name}
-        </h2>
+        </Typography>
         <a href={`tel:${number}`} className={phoneItem}>
           <BiSolidPhone />
           {number}
         </a>
-      </div>
-      <button
-        type="button"
+      </Box>
+      <Button
+        variant="contained"
+        color="error"
         className={css.button}
         onClick={() => handleDelete(id)}
       >
         Delete
-      </button>
+      </Button>
     </>
   );
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
