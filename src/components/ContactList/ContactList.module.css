@@ -8,6 +8,7 @@
 }
 
 .listItem {
+  width: auto !important;
   padding: 10px;
   border: 1px solid #000;
   border-radius: 8px;

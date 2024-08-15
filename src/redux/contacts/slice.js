@@ -4,6 +4,9 @@ import {
   addContact,
   deleteContact
 } from "./operations"
+import {
+  logout
+} from "../auth/operations"
 
 const slice = createSlice({
   name: 'contacts',
@@ -14,7 +17,7 @@ const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchContacts.pending, (state, action) => {
+      .addCase(fetchContacts.pending, (state) => {
         state.loading = true
         state.error = false
       })
@@ -22,11 +25,11 @@ const slice = createSlice({
         state.items = action.payload
         state.loading = false
       })
-      .addCase(fetchContacts.rejected, (state, action) => {
+      .addCase(fetchContacts.rejected, (state) => {
         state.loading = false
         state.error = true
       })
-      .addCase(addContact.pending, (state, action) => {
+      .addCase(addContact.pending, (state) => {
         state.loading = true
         state.error = false
       })
@@ -34,11 +37,11 @@ const slice = createSlice({
         state.items = [...state.items, action.payload]
         state.loading = false
       })
-      .addCase(addContact.rejected, (state, action) => {
+      .addCase(addContact.rejected, (state) => {
         state.loading = false
         state.error = true
       })
-      .addCase(deleteContact.pending, (state, action) => {
+      .addCase(deleteContact.pending, (state) => {
         state.loading = true
         state.error = false
       })
@@ -46,9 +49,14 @@ const slice = createSlice({
         state.items = state.items.filter(contact => contact.id !== action.payload.id)
         state.loading = false
       })
-      .addCase(deleteContact.rejected, (state, action) => {
+      .addCase(deleteContact.rejected, (state) => {
         state.loading = false
         state.error = true
+      })
+      .addCase(logout.fulfilled, (state, action) => {
+        state.items = [],
+        state.loading = false,
+        state.error = null
       })
   }
 })

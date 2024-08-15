@@ -1,5 +1,7 @@
-.title {
-  margin: 0;
+.titleItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .item {
@@ -11,14 +13,14 @@
 .phone {
   font-size: 18px;
   color: #000;
+  margin: 0 8px;
 }
 
 .content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
+  gap: 8px;
 }
 
 .button {

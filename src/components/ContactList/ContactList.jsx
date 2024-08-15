@@ -5,7 +5,6 @@ import clsx from "clsx";
 
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import Paper from "@mui/material/Paper";
 
 import Contact from "../Contact/Contact";
 
@@ -17,9 +16,7 @@ export default function ContactList() {
     <List className={css.list}>
       {visibleContacts.map((phone) => (
         <ListItem key={phone.id} className={clsx(css.listItem)}>
-          <Paper className={clsx(css.listItem)}>
-            <Contact phone={phone} />
-          </Paper>
+          <Contact phone={phone} />
         </ListItem>
       ))}
     </List>

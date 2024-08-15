@@ -20,11 +20,11 @@ export default function Contact({ phone: { id, name, number } }) {
   return (
     <>
       <Box className={css.content}>
-        <Typography variant="h6" component="h2" className={titleItem}>
+        <Typography variant="h6" component="h2" className={css.titleItem}>
           <BiSolidUser />
           {name}
         </Typography>
-        <a href={`tel:${number}`} className={phoneItem}>
+        <a href={`tel:${number}`} className={css.phoneItem}>
           <BiSolidPhone />
           {number}
         </a>

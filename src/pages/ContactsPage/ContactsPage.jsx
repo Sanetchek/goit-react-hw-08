@@ -1,16 +1,20 @@
 import {
+  useDispatch,
   useSelector
 } from "react-redux";
 import {
   selectErrorContacts,
+  selectItemsContacts,
   selectLoadingContacts
 } from "../../redux/contacts/selectors";
+import { fetchContacts } from "../../redux/contacts/operations";
+import { useEffect } from "react";
 
 import ContactForm from "../../components/ContactForm/ContactForm";
 import SearchBox from "../../components/SearchBox/SearchBox";
 import ContactList from "../../components/ContactList/ContactList";
 import Loading from "../../components/Loading/Loading";
-import Error from "../../components/Error/Error";
+import Message from "../../components/Message/Message";
 
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -20,6 +24,12 @@ import css from './ContactsPage.module.css';
 export default function ContactsPage() {
   const isLoading = useSelector(selectLoadingContacts);
   const isError = useSelector(selectErrorContacts);
+  const hasItems = useSelector(selectItemsContacts);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   return (
     <>
@@ -37,10 +47,20 @@ export default function ContactsPage() {
         <SearchBox />
       </Box>
       {isLoading && <Loading />}
-      {isError && (
-        <Error message="Something went wrong. Please try again later." />
+
+      {!isLoading && isError ? (
+        <Message
+          message="Something went wrong. Please try again later."
+          type="error"
+        />
+      ) : hasItems.length > 0 ? (
+        <ContactList />
+      ) : (
+        <Message message="There is no Contacts yet" type="normal" />
       )}
-      <ContactList />
     </>
   );
 };
+
+
+

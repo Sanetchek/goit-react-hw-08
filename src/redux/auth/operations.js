@@ -5,11 +5,18 @@ import {
 
 axios.defaults.baseURL = "https://connections-api.goit.global";
 
+const setAuthHead = (token) => {
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+}
+
 export const register = createAsyncThunk(
   'auth/register',
   async (newUser, thunkAPI) => {
     try {
-      const response = await axios.get('/users/signup', newUser);
+      const response = await axios.post('/users/signup', newUser);
+
+      setAuthHead(response.data.token);
+
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -21,7 +28,10 @@ export const login = createAsyncThunk(
   'auth/login',
   async (user, thunkAPI) => {
     try {
-      const response = await axios.get('/users/login', user);
+      const response = await axios.post('/users/login', user);
+
+      setAuthHead(response.data.token);
+
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -31,9 +41,12 @@ export const login = createAsyncThunk(
 
 export const logout = createAsyncThunk(
   'auth/logout',
-  async (token, thunkAPI) => {
+  async (_, thunkAPI) => {
     try {
-      const response = await axios.get('/users/logout', token);
+      const response = await axios.post('/users/logout');
+
+      setAuthHead("");
+
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -43,9 +56,9 @@ export const logout = createAsyncThunk(
 
 export const refreshUser = createAsyncThunk(
   'auth/refresh',
-  async (token, thunkAPI) => {
+  async (_, thunkAPI) => {
     try {
-      const response = await axios.get('/users//users/current', token);
+      const response = await axios.get('/users//users/current');
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);

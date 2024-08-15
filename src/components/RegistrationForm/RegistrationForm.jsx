@@ -22,11 +22,12 @@ export default function RegistrationForm() {
       .email("Invalid email address")
       .required("This field is required!"),
     password: Yup.string()
-      .min(6, "Password must be at least 6 characters long")
+      .min(15, "Password must be at least 15 characters long")
       .required("This field is required!")
   });
 
   const handleSubmit = (values, { resetForm }) => {
+    console.log(values);
     dispatch(register(values));
     resetForm();
   };
@@ -72,6 +73,7 @@ export default function RegistrationForm() {
             name="password"
             className={css.input}
           />
+          <span>Example: examplepwd12345</span>
           <ErrorMessage
             className={css.error}
             name="password"
@@ -85,5 +87,4 @@ export default function RegistrationForm() {
     </Formik>
   );
 }
-
 
