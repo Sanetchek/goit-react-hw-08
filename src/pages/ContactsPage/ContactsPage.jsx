@@ -24,7 +24,7 @@ import css from './ContactsPage.module.css';
 export default function ContactsPage() {
   const isLoading = useSelector(selectLoadingContacts);
   const isError = useSelector(selectErrorContacts);
-  const hasItems = useSelector(selectItemsContacts);
+  const contacts = useSelector(selectItemsContacts);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -46,21 +46,23 @@ export default function ContactsPage() {
         <ContactForm />
         <SearchBox />
       </Box>
+
       {isLoading && <Loading />}
 
-      {!isLoading && isError ? (
+      {!isLoading && isError && (
         <Message
           message="Something went wrong. Please try again later."
           type="error"
         />
-      ) : hasItems.length > 0 ? (
-        <ContactList />
-      ) : (
-        <Message message="There is no Contacts yet" type="normal" />
+      )}
+
+      {!isLoading && !isError && contacts.length > 0 && <ContactList />}
+
+      {!isLoading && !isError && contacts.length === 0 && (
+        <Message message="There are no contacts yet" type="normal" />
       )}
     </>
   );
 };
-
 
 

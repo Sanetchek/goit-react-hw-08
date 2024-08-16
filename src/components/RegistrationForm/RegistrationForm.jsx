@@ -27,7 +27,6 @@ export default function RegistrationForm() {
   });
 
   const handleSubmit = (values, { resetForm }) => {
-    console.log(values);
     dispatch(register(values));
     resetForm();
   };
